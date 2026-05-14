@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 interface Props {
   children: React.ReactNode
@@ -7,37 +7,68 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   const location = useLocation()
+  const navigate = useNavigate()
+  const isAdmin = location.pathname.startsWith('/admin')
+  const isAdminAuthed = sessionStorage.getItem('adminAuth') === 'true'
 
   return (
-    <div className="min-h-screen bg-orange-50">
-      <header className="bg-primary-700 text-white shadow-lg">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-wide">岡商店</span>
-            <span className="text-sm opacity-80 mt-1">勤怠管理</span>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="w-7 h-7 bg-accent-500 rounded-lg flex items-center justify-center">
+              <span className="text-white text-xs font-bold">岡</span>
+            </div>
+            <span className="font-bold text-gray-900 tracking-tight">岡商店</span>
+            <span className="text-gray-300 text-sm">|</span>
+            <span className="text-gray-400 text-sm">勤怠管理</span>
           </Link>
-          <nav className="flex gap-1">
-            <NavLink to="/" label="ホーム" active={location.pathname === '/'} />
-            <NavLink to="/admin" label="管理者" active={location.pathname.startsWith('/admin')} />
-          </nav>
+
+          <div className="flex items-center gap-1">
+            {isAdmin && isAdminAuthed ? (
+              <button
+                onClick={() => { sessionStorage.removeItem('adminAuth'); navigate('/admin') }}
+                className="btn-ghost text-xs"
+              >
+                ログアウト
+              </button>
+            ) : (
+              <Link
+                to="/admin"
+                className={`btn-ghost text-xs ${location.pathname.startsWith('/admin') ? 'text-accent-600 bg-accent-50' : ''}`}
+              >
+                管理者
+              </Link>
+            )}
+          </div>
         </div>
       </header>
-      <main className="max-w-5xl mx-auto px-4 py-6">{children}</main>
+
+      {/* Admin breadcrumb */}
+      {isAdmin && isAdminAuthed && location.pathname !== '/admin/dashboard' && (
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-4xl mx-auto px-4 py-2 flex items-center gap-2 text-xs text-gray-400">
+            <Link to="/admin/dashboard" className="hover:text-gray-600 transition-colors">管理者</Link>
+            <span>/</span>
+            <span className="text-gray-600">{breadcrumbLabel(location.pathname)}</span>
+          </div>
+        </div>
+      )}
+
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-8">
+        {children}
+      </main>
     </div>
   )
 }
 
-function NavLink({ to, label, active }: { to: string; label: string; active: boolean }) {
-  return (
-    <Link
-      to={to}
-      className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-        active
-          ? 'bg-white text-primary-700'
-          : 'text-white hover:bg-primary-600'
-      }`}
-    >
-      {label}
-    </Link>
-  )
+function breadcrumbLabel(path: string) {
+  const map: Record<string, string> = {
+    '/admin/employees': '従業員管理',
+    '/admin/attendance': '打刻修正',
+    '/admin/salary': '給与計算',
+    '/admin/leaves': '有給管理',
+  }
+  return map[path] ?? ''
 }

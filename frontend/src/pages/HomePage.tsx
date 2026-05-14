@@ -11,49 +11,51 @@ export default function HomePage() {
   useEffect(() => {
     getEmployees()
       .then(setEmployees)
-      .catch(() => setError('従業員データの取得に失敗しました'))
+      .catch(() => setError('データの取得に失敗しました'))
       .finally(() => setLoading(false))
   }, [])
 
   const now = new Date()
-  const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
-  const days = ['日', '月', '火', '水', '木', '金', '土']
-  const dayStr = days[now.getDay()]
-
-  if (loading) return <div className="text-center py-20 text-gray-500">読み込み中...</div>
+  const dateStr = now.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
 
   return (
-    <div>
-      <div className="text-center mb-8">
-        <p className="text-lg text-gray-600 font-medium">{dateStr}（{dayStr}）</p>
-        <h1 className="text-3xl font-bold text-primary-700 mt-1">従業員を選択してください</h1>
+    <div className="max-w-lg mx-auto">
+      {/* Date + greeting */}
+      <div className="mb-8 text-center">
+        <p className="text-xs text-gray-400 font-medium tracking-widest uppercase mb-1">{dateStr}</p>
+        <h1 className="text-2xl font-bold text-gray-900">おはようございます</h1>
+        <p className="text-sm text-gray-400 mt-1">名前を選択して打刻してください</p>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-300 text-red-700 rounded-lg p-4 mb-4 text-center">
+        <div className="bg-red-50 text-red-600 text-sm rounded-xl px-4 py-3 mb-6 text-center">
           {error}
         </div>
       )}
 
-      {employees.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
-          <p className="text-xl mb-2">従業員が登録されていません</p>
-          <p className="text-sm">管理者メニューから従業員を追加してください</p>
+      {loading ? (
+        <div className="flex justify-center py-16">
+          <div className="w-6 h-6 border-2 border-accent-400 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : employees.length === 0 ? (
+        <div className="card p-10 text-center">
+          <p className="text-gray-400 text-sm">従業員が登録されていません</p>
+          <p className="text-gray-300 text-xs mt-1">管理者メニューから追加してください</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {employees.map(emp => (
             <button
               key={emp.id}
               onClick={() => navigate(`/attendance/${emp.id}`)}
-              className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg hover:bg-primary-50 transition-all border-2 border-transparent hover:border-primary-300 active:scale-95"
+              className="group card p-5 text-center hover:shadow-card-md hover:ring-1 hover:ring-accent-300 active:scale-[0.98] transition-all duration-150"
             >
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-primary-700">
+              <div className="w-12 h-12 bg-gray-100 group-hover:bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-3 transition-colors">
+                <span className="text-xl font-bold text-gray-500 group-hover:text-accent-600 transition-colors">
                   {emp.name.charAt(0)}
                 </span>
               </div>
-              <span className="font-semibold text-gray-800 text-lg">{emp.name}</span>
+              <span className="text-sm font-semibold text-gray-800">{emp.name}</span>
             </button>
           ))}
         </div>
