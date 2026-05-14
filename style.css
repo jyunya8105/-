@@ -1,0 +1,190 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0f0f1a;
+  color: #e0e0ff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: #9090cc;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+/* Progress ring behind the display */
+.progress-ring-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.progress-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+  fill: none;
+  stroke: #1e1e38;
+  stroke-width: 6;
+}
+
+.progress-ring__fill {
+  fill: none;
+  stroke: #6060ff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 339.3;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s;
+}
+
+/* Display */
+.display {
+  font-size: 5rem;
+  font-weight: 200;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+  transition: color 0.3s;
+}
+
+.display.finished {
+  color: #ff6060;
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Input group */
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.input-group label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.input-group span {
+  font-size: 0.65rem;
+  color: #6060aa;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.input-group .colon {
+  font-size: 1.5rem;
+  color: #4040aa;
+  margin-top: 0.5rem;
+}
+
+.input-group input {
+  width: 70px;
+  padding: 0.5rem;
+  background: #1a1a30;
+  border: 1px solid #2a2a50;
+  border-radius: 8px;
+  color: #e0e0ff;
+  font-size: 1.3rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #6060ff;
+}
+
+.input-group input::-webkit-inner-spin-button,
+.input-group input::-webkit-outer-spin-button {
+  opacity: 0.3;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: #6060ff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #7070ff;
+}
+
+.btn-primary.running {
+  background: #ff6060;
+}
+
+.btn-primary.running:hover {
+  background: #ff7070;
+}
+
+.btn-secondary {
+  background: #1e1e38;
+  color: #9090cc;
+  border: 1px solid #2a2a50;
+}
+
+.btn-secondary:hover {
+  background: #262645;
+}

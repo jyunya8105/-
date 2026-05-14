@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タイマー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>タイマー</h1>
+
+    <div class="display" id="display">00:00</div>
+
+    <div class="input-group">
+      <label>
+        <span>分</span>
+        <input type="number" id="minutes" min="0" max="99" value="5" placeholder="00">
+      </label>
+      <span class="colon">:</span>
+      <label>
+        <span>秒</span>
+        <input type="number" id="seconds" min="0" max="59" value="0" placeholder="00">
+      </label>
+    </div>
+
+    <div class="controls">
+      <button id="startStop" class="btn btn-primary">スタート</button>
+      <button id="reset" class="btn btn-secondary">リセット</button>
+    </div>
+
+    <div class="progress-ring-container">
+      <svg class="progress-ring" viewBox="0 0 120 120">
+        <circle class="progress-ring__track" cx="60" cy="60" r="54"/>
+        <circle class="progress-ring__fill" id="progressRing" cx="60" cy="60" r="54"/>
+      </svg>
+    </div>
+  </div>
+
+  <audio id="alarmSound" preload="auto"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
