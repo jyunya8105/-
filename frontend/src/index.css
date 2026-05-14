@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Noto Sans JP', 'Hiragino Sans', system-ui, sans-serif;
+  }
+
+  * {
+    @apply border-gray-100;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-xl shadow-card;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-accent-500 text-white text-sm font-medium rounded-lg hover:bg-accent-600 active:bg-accent-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-3 py-1.5 text-gray-500 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors;
+  }
+
+  .input {
+    @apply w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-gray-500 mb-1;
+  }
+
+  .page-title {
+    @apply text-xl font-bold text-gray-900;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold text-gray-500 uppercase tracking-wider;
+  }
+}
